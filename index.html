@@ -1,618 +1,584 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlashMaster - Premium Flashcards | Study & Learn Efficiently</title>
-    <meta name="description" content="FlashMaster is a free, modern flashcard application to help you study and learn faster. Features shuffle, progress tracking, and a beautiful glassmorphism design.">
-    <meta name="keywords" content="flashcards, study app, learning tool, education, memory, spaced repetition, free flashcards, online flashcards">
-    <meta name="author" content="User">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://flashmaster-app.vercel.app/">
-    <meta property="og:title" content="FlashMaster - Premium Flashcards">
-    <meta property="og:description" content="Supercharge your learning with style. A modern, free flashcard app with shuffle and progress tracking.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=80">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlashMaster - Premium Flashcards | Study & Learn Efficiently</title>
+  <meta name="description" content="FlashMaster is a free, modern flashcard application to help you study and learn faster. Features shuffle, progress tracking, and a beautiful glassmorphism design.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #ec4899;
+      --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --glass-bg: rgba(255, 255, 255, 0.95);
+      --glass-border: rgba(255, 255, 255, 0.3);
+      --text-main: #1f2937;
+      --text-light: #6b7280;
+      --card-bg-front: linear-gradient(to bottom right, #ffffff, #f8fafc);
+      --card-bg-back: linear-gradient(to bottom right, #f0f9ff, #e0f2fe);
+      --card-text-back: #4f46e5;
+      --card-border-back: #e0e7ff;
+      --success: #10b981;
+      --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --footer-text: rgba(255, 255, 255, 0.8);
+    }
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://flashmaster-app.vercel.app/">
-    <meta property="twitter:title" content="FlashMaster - Premium Flashcards">
-    <meta property="twitter:description" content="Supercharge your learning with style. A modern, free flashcard app with shuffle and progress tracking.">
-    <meta property="twitter:image" content="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=80">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            /* Light Mode (Default) */
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #ec4899;
-            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --glass-bg: rgba(255, 255, 255, 0.95);
-            --glass-border: rgba(255, 255, 255, 0.3);
-            --text-main: #1f2937;
-            --text-light: #6b7280;
-            --card-bg-front: linear-gradient(to bottom right, #ffffff, #f8fafc);
-            --card-bg-back: linear-gradient(to bottom right, #f0f9ff, #e0f2fe);
-            --card-text-back: #4f46e5;
-            --card-border-back: #e0e7ff;
-            --success: #10b981;
-            --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            --footer-text: rgba(255, 255, 255, 0.8);
-        }
+    [data-theme="dark"] {
+      --primary: #818cf8;
+      --primary-dark: #6366f1;
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      --glass-bg: rgba(30, 41, 59, 0.95);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --text-main: #f1f5f9;
+      --text-light: #94a3b8;
+      --card-bg-front: linear-gradient(to bottom right, #1e293b, #0f172a);
+      --card-bg-back: linear-gradient(to bottom right, #312e81, #1e1b4b);
+      --card-text-back: #e0e7ff;
+      --card-border-back: #4338ca;
+      --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    }
 
-        [data-theme="dark"] {
-            /* Dark Mode Overrides */
-            --primary: #818cf8;
-            --primary-dark: #6366f1;
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
-            --glass-bg: rgba(30, 41, 59, 0.95);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-main: #f1f5f9;
-            --text-light: #94a3b8;
-            --card-bg-front: linear-gradient(to bottom right, #1e293b, #0f172a);
-            --card-bg-back: linear-gradient(to bottom right, #312e81, #1e1b4b);
-            --card-text-back: #e0e7ff;
-            --card-border-back: #4338ca;
-            --card-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-        }
+    * { box-sizing: border-box; outline: none; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      overflow: hidden;
+      transition: background 0.5s ease;
+    }
 
-        * { box-sizing: border-box; outline: none; }
+    /* Theme Toggle */
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      backdrop-filter: blur(5px);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+    .theme-toggle:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.1); }
 
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-gradient);
-            min-height: 100vh;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-main);
-            overflow: hidden;
-            transition: background 0.5s ease;
-        }
+    /* Upload */
+    #upload-view {
+      background: var(--glass-bg);
+      padding: 3rem;
+      border-radius: 24px;
+      box-shadow: var(--card-shadow);
+      text-align: center;
+      max-width: 480px;
+      width: 95vw;
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      animation: fadeIn 0.6s ease-out;
+    }
 
-        /* --- Icons --- */
-        .icon { width: 20px; height: 20px; fill: currentColor; }
+    h1 { margin: 0 0 0.5rem 0; font-weight: 700; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    p.subtitle { margin-bottom: 2rem; color: var(--text-light); }
 
-        /* --- Theme Toggle --- */
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 100;
-        }
-        .theme-toggle:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.1); }
+    .upload-area {
+      border: 2px dashed var(--text-light);
+      opacity: 0.7;
+      border-radius: 16px;
+      padding: 3rem 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: transparent;
+    }
+    .upload-area:hover { border-color: var(--primary); opacity: 1; transform: translateY(-2px); background: rgba(99, 102, 241, 0.05); }
+    .upload-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+    .upload-text { font-weight: 500; color: var(--primary); }
+    .upload-hint { font-size: 0.875rem; color: var(--text-light); margin-top: 0.5rem; }
 
-        /* --- Upload View --- */
-        #upload-view {
-            background: var(--glass-bg);
-            padding: 3rem;
-            border-radius: 24px;
-            box-shadow: var(--card-shadow);
-            text-align: center;
-            max-width: 480px;
-            width: 90%;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            animation: fadeIn 0.6s ease-out;
-        }
+    /* App View */
+    #app-view {
+      display: none;
+      width: 100vw;
+      max-width: 800px;
+      min-height: 100vh;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      position: relative;
+    }
+    .header-bar {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      flex-wrap: wrap;
+    }
 
-        h1 { margin: 0 0 0.5rem 0; font-weight: 700; background: linear-gradient(to right, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        p.subtitle { margin-bottom: 2rem; color: var(--text-light); }
+    .stats-badge {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      min-width: 100px;
+      text-align: center;
+    }
 
-        .upload-area {
-            border: 2px dashed var(--text-light);
-            opacity: 0.7;
-            border-radius: 16px;
-            padding: 3rem 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: transparent;
-        }
+    /* Progress Bar */
+    .progress-container {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 3px;
+      margin-bottom: 26px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: #fff;
+      width: 0%;
+      transition: width 0.4s ease;
+      box-shadow: 0 0 10px rgba(255,255,255,0.5);
+    }
 
-        .upload-area:hover { border-color: var(--primary); opacity: 1; transform: translateY(-2px); background: rgba(99, 102, 241, 0.05); }
-        .upload-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
-        .upload-text { font-weight: 500; color: var(--primary); }
-        .upload-hint { font-size: 0.875rem; color: var(--text-light); margin-top: 0.5rem; }
+    /* Card */
+    .card-container {
+      perspective: 1500px;
+      width: 99vw;
+      max-width: 600px;
+      min-width: 220px;
+      height: 38vh;
+      min-height: 170px;
+      max-height: 390px;
+      position: relative;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
 
-        /* --- App View --- */
-        #app-view {
-            display: none;
-            width: 100%;
-            max-width: 800px;
-            height: 100vh;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            position: relative;
-        }
+    .card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+      border-radius: 24px;
+      box-shadow: var(--card-shadow);
+    }
 
-        .header-bar {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            color: white;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+    .card.flipped { transform: rotateY(180deg); }
 
-        .stats-badge {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(5px);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 34px 12px;
+      border-radius: 24px;
+      font-size: 1.22rem;
+      line-height: 1.65;
+      text-align: center;
+      overflow-y: auto;
+      user-select: none;
+    }
 
-        /* --- Progress Bar --- */
-        .progress-container {
-            width: 100%;
-            height: 6px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 3px;
-            margin-bottom: 30px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: #fff;
-            width: 0%;
-            transition: width 0.4s ease;
-            box-shadow: 0 0 10px rgba(255,255,255,0.5);
-        }
+    .card-front {
+      color: var(--text-main);
+      background: var(--card-bg-front);
+    }
 
-        /* --- Card --- */
-        .card-container {
-            perspective: 1500px;
-            width: 100%;
-            max-width: 600px;
-            height: 400px;
-            position: relative;
-            cursor: pointer;
-        }
+    .card-back {
+      transform: rotateY(180deg);
+      background: var(--card-bg-back);
+      color: var(--card-text-back);
+      border: 2px solid var(--card-border-back);
+    }
 
-        .card {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
-            border-radius: 24px;
-            box-shadow: var(--card-shadow);
-        }
+    .card-hint {
+      position: absolute;
+      bottom: 16px;
+      font-size: 0.78rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      opacity: 0.7;
+    }
 
-        .card.flipped { transform: rotateY(180deg); }
+    /* Controls */
+    .controls-area {
+      margin-top: 32px;
+      display: flex;
+      gap: 13px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+    .btn {
+      border: none;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+    }
+    .btn:active { transform: scale(0.96); }
+    .btn-primary { background: white; color: var(--primary); }
+    .btn-primary:hover { background: #f8fafc; transform: translateY(-2px); }
+    .btn-secondary { background: rgba(255,255,255,0.2); color: white; backdrop-filter: blur(5px); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.3); }
+    .btn-success { background: var(--success); color: white; }
+    .btn-success:hover { background: #059669; }
+    .btn-icon { padding: 12px; border-radius: 50%; min-width: 42px; }
 
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            border-radius: 24px;
-            font-size: 1.5rem;
-            line-height: 1.6;
-            text-align: center;
-            overflow-y: auto;
-            user-select: none;
-        }
+    /* Footer */
+    footer {
+      position: fixed;
+      bottom: 12px;
+      width: 100%;
+      text-align: center;
+      color: var(--footer-text);
+      font-size: 0.93rem;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      align-items: center;
+      z-index: 10;
+      pointer-events:auto;
+    }
+    footer a {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.13);
+      backdrop-filter: blur(4px);
+      transition: all 0.2s;
+    }
+    footer a:hover {
+      background: rgba(255,255,255,0.23);
+      transform: translateY(-2px);
+    }
 
-        .card-front {
-            color: var(--text-main);
-            background: var(--card-bg-front);
-        }
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card-back {
-            transform: rotateY(180deg);
-            background: var(--card-bg-back);
-            color: var(--card-text-back);
-            border: 2px solid var(--card-border-back);
-        }
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      #app-view { max-width: 98vw; }
+      .card-container { max-width: 98vw; }
+    }
+    @media (max-width: 800px) {
+      .header-bar, .controls-area { flex-direction:column; gap: 10px;}
+      #upload-view, #app-view { max-width: 98vw; }
+    }
+    @media (max-width: 640px) {
+      .card-container { height: 200px; }
+      .card-face { padding: 16px 8px; font-size: 1.05rem; }
+      #upload-view { padding: 1.2rem; }
+      .btn { padding: 10px 12px; font-size: 0.92rem; }
+      footer { font-size: 0.86rem; gap: 8px; }
+      .header-bar { font-size: 0.9rem; }
+      .stats-badge { padding: 7px 10px; }
+      .theme-toggle { top: 10px; right: 7px; padding: 7px;}
+    }
+    @media (max-width: 400px) {
+      .card-container { height: 110px; }
+      .card-face { font-size: 0.82rem; }
+      .btn { font-size: 0.85rem; padding: 8px 7px; }
+      .upload-text { font-size: .93rem;}
+    }
+    @media (orientation: landscape) and (max-height: 400px) {
+      .card-container { height: 90px; }
+      .card-face { font-size: 0.70rem;}
+    }
 
-        .card-hint {
-            position: absolute;
-            bottom: 20px;
-            font-size: 0.8rem;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-            opacity: 0.7;
-        }
-
-        /* --- Controls --- */
-        .controls-area {
-            margin-top: 40px;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn {
-            border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-family: inherit;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn:active { transform: scale(0.95); }
-
-        .btn-primary { background: white; color: var(--primary); }
-        .btn-primary:hover { background: #f8fafc; transform: translateY(-2px); }
-
-        .btn-secondary { background: rgba(255,255,255,0.2); color: white; backdrop-filter: blur(5px); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.3); }
-
-        .btn-success { background: var(--success); color: white; }
-        .btn-success:hover { background: #059669; }
-
-        .btn-icon { padding: 12px; border-radius: 50%; }
-
-        /* --- Footer --- */
-        footer {
-            position: fixed;
-            bottom: 20px;
-            width: 100%;
-            text-align: center;
-            color: var(--footer-text);
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            align-items: center;
-            z-index: 10;
-        }
-
-        footer a {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(4px);
-            transition: all 0.2s;
-        }
-
-        footer a:hover {
-            background: rgba(255,255,255,0.25);
-            transform: translateY(-2px);
-        }
-
-        /* --- Animations --- */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* --- MathJax --- */
-        mjx-container { font-size: 1.1em !important; }
-
-        /* --- Mobile --- */
-        @media (max-width: 640px) {
-            .card-container { height: 300px; }
-            .card-face { padding: 20px; font-size: 1.2rem; }
-            .controls-area { gap: 10px; }
-            .btn { padding: 10px 16px; font-size: 0.9rem; }
-        }
-    </style>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    /* MathJax */
+    mjx-container { font-size: 1.1em !important; }
+  </style>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
-    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
-        <svg class="icon" viewBox="0 0 24 24" id="moon-icon" style="display: block;">
-            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
-        </svg>
-        <svg class="icon" viewBox="0 0 24 24" id="sun-icon" style="display: none;">
-            <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12zm0-16a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V3a1 1 0 0 1 1-1zm0 18a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 1 1zM4 12a1 1 0 0 1-1 1H2a1 1 0 0 1 0-2h1a1 1 0 0 1 1 1zm14.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-12.728 12.728a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zM18.95 18.364a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 1 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zM6.272 5.636a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414z"/>
-        </svg>
-    </button>
+  <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Dark Mode">
+    <svg class="icon" viewBox="0 0 24 24" id="moon-icon" style="display: block;">
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+    <svg class="icon" viewBox="0 0 24 24" id="sun-icon" style="display: none;">
+      <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12zm0-16a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0V3a1 1 0 0 1 1-1zm0 18a1 1 0 0 1 1 1v1a1 1 0 0 1-2 0v-1a1 1 0 0 1 1-1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 0 1 0-2h1a1 1 0 0 1 1 1zM4 12a1 1 0 0 1-1 1H2a1 1 0 0 1 0-2h1a1 1 0 0 1 1 1zm14.95-6.364a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zm-12.728 12.728a1 1 0 0 1 0 1.414l-.707.707a1 1 0 0 1-1.414-1.414l.707-.707a1 1 0 0 1 1.414 0zM18.95 18.364a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 1 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414zM6.272 5.636a1 1 0 0 1-1.414 0l-.707-.707a1 1 0 0 1 1.414-1.414l.707.707a1 1 0 0 1 0 1.414z"/>
+    </svg>
+  </button>
 
-    <div id="upload-view">
-        <h1>FlashMaster</h1>
-        <p class="subtitle">Supercharge your learning with style.</p>
-        
-        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-            <input type="file" id="fileInput" accept=".csv" onchange="handleFileUpload(this)" style="display: none;">
-            <span class="upload-icon">📂</span>
-            <div class="upload-text">Click to Upload CSV</div>
-            <div class="upload-hint">Format: Question, Answer (no headers)</div>
-        </div>
-        <p id="error-msg" style="color: #ef4444; display: none; margin-top: 1rem; font-size: 0.9rem;"></p>
+  <div id="upload-view">
+    <h1>FlashMaster</h1>
+    <p class="subtitle">Supercharge your learning with style.</p>
+    <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+      <input type="file" id="fileInput" accept=".csv" onchange="handleFileUpload(this)" style="display: none;">
+      <span class="upload-icon">📂</span>
+      <div class="upload-text">Click to Upload CSV</div>
+      <div class="upload-hint">Format: Question, Answer (no headers)</div>
     </div>
+    <p id="error-msg" style="color: #ef4444; display: none; margin-top: 1rem; font-size: 0.9rem;"></p>
+  </div>
 
-    <div id="app-view">
-        <div class="header-bar">
-            <div class="stats-badge" id="deck-stats">0 Cards</div>
-            <button class="btn btn-secondary" onclick="resetApp()" style="padding: 8px 16px; font-size: 0.8rem;">Upload New</button>
-        </div>
-
-        <div class="progress-container">
-            <div class="progress-fill" id="progress-bar"></div>
-        </div>
-
-        <div class="card-container" onclick="flipCard()">
-            <div class="card" id="flashcard">
-                <div class="card-face card-front">
-                    <div id="card-front-content"></div>
-                    <div class="card-hint">Click to Flip</div>
-                </div>
-                <div class="card-face card-back">
-                    <div id="card-back-content"></div>
-                    <div class="card-hint">Question</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="controls-area">
-            <button class="btn btn-secondary btn-icon" onclick="shuffleCards()" title="Shuffle (S)">🔀</button>
-            <button class="btn btn-primary" onclick="prevCard()" id="prevBtn" title="Previous (Left Arrow)">← Prev</button>
-            <button class="btn btn-primary" onclick="nextCard()" id="nextBtn" title="Next (Right Arrow)">Next →</button>
-            <button class="btn btn-success" onclick="markAsLearned()" title="Mark as Learned (L)">✓ Learned</button>
-        </div>
+  <div id="app-view">
+    <div class="header-bar">
+      <div class="stats-badge" id="deck-stats">0 Cards</div>
+      <button class="btn btn-secondary" onclick="resetApp()" style="padding: 8px 16px; font-size: 0.8rem;">Upload New</button>
     </div>
+    <div class="progress-container">
+      <div class="progress-fill" id="progress-bar"></div>
+    </div>
+    <div class="card-container" onclick="flipCard()">
+      <div class="card" id="flashcard">
+        <div class="card-face card-front">
+          <div id="card-front-content"></div>
+          <div class="card-hint">Click to Flip</div>
+        </div>
+        <div class="card-face card-back">
+          <div id="card-back-content"></div>
+          <div class="card-hint">Question</div>
+        </div>
+      </div>
+    </div>
+    <div class="controls-area">
+      <button class="btn btn-secondary btn-icon" onclick="shuffleCards()" title="Shuffle (S)">🔀</button>
+      <button class="btn btn-primary" onclick="prevCard()" id="prevBtn" title="Previous (Left Arrow)">← Prev</button>
+      <button class="btn btn-primary" onclick="nextCard()" id="nextBtn" title="Next (Right Arrow)">Next →</button>
+      <button class="btn btn-success" onclick="markAsLearned()" title="Mark as Learned (L)">✓ Learned</button>
+    </div>
+  </div>
 
-    <footer>
-        <a href="https://github.com/lighty7" target="_blank" title="View on GitHub">
-            <svg class="icon" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
-            <span>GitHub</span>
-        </a>
-        <a href="https://porfolio-five-beryl.vercel.app" target="_blank" title="View Portfolio">
-            <svg class="icon" viewBox="0 0 24 24">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-            </svg>
-            <span>Portfolio</span>
-        </a>
-    </footer>
+  <footer>
+    <a href="https://github.com/lighty7" target="_blank" title="View on GitHub">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+      <span>GitHub</span>
+    </a>
+    <a href="https://porfolio-five-beryl.vercel.app" target="_blank" title="View Portfolio">
+      <svg class="icon" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+      </svg>
+      <span>Portfolio</span>
+    </a>
+  </footer>
+  <script>
+    let allCards = [];
+    let activeCards = [];
+    let currentIndex = 0;
+    let isFlipped = false;
 
-    <script>
-        let allCards = [];
-        let activeCards = [];
-        let currentIndex = 0;
-        let isFlipped = false;
+    // Theme Logic
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const newValue = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', newValue);
+      localStorage.setItem('theme', newValue);
+      updateThemeIcon(newValue);
+    }
+    function updateThemeIcon(theme) {
+      document.getElementById('moon-icon').style.display = theme === 'dark' ? 'none' : 'block';
+      document.getElementById('sun-icon').style.display = theme === 'dark' ? 'block' : 'none';
+    }
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
 
-        // Theme Logic
-        function toggleTheme() {
-            const html = document.documentElement;
-            const current = html.getAttribute('data-theme');
-            const newValue = current === 'dark' ? 'light' : 'dark';
-            
-            html.setAttribute('data-theme', newValue);
-            localStorage.setItem('theme', newValue);
-            updateThemeIcon(newValue);
+    // DOM Elements
+    const uploadView = document.getElementById('upload-view');
+    const appView = document.getElementById('app-view');
+    const cardElement = document.getElementById('flashcard');
+    const frontContent = document.getElementById('card-front-content');
+    const backContent = document.getElementById('card-back-content');
+    const progressBar = document.getElementById('progress-bar');
+    const deckStats = document.getElementById('deck-stats');
+    const errorMsg = document.getElementById('error-msg');
+
+    function handleFileUpload(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const text = e.target.result;
+          const parsed = parseCSV(text);
+          if (parsed.length === 0) throw new Error("No valid cards found.");
+          allCards = parsed;
+          activeCards = [...allCards]; 
+          currentIndex = 0;
+          startApp();
+        } catch (err) {
+          showError(err.message || "Invalid CSV format");
         }
+      };
+      reader.readAsText(file);
+    }
 
-        function updateThemeIcon(theme) {
-            document.getElementById('moon-icon').style.display = theme === 'dark' ? 'none' : 'block';
-            document.getElementById('sun-icon').style.display = theme === 'dark' ? 'block' : 'none';
+    function parseCSV(text) {
+      const rows = [];
+      let currentRow = [];
+      let currentField = '';
+      let insideQuote = false;
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const nextChar = text[i+1];
+        if (char === '"') {
+          if (insideQuote && nextChar === '"') {
+            currentField += '"';
+            i++;
+          } else {
+            insideQuote = !insideQuote;
+          }
+        } else if (char === ',' && !insideQuote) {
+          currentRow.push(currentField.trim());
+          currentField = '';
+        } else if ((char === '\n' || char === '\r') && !insideQuote) {
+          if (currentField || currentRow.length > 0) currentRow.push(currentField.trim());
+          if (currentRow.length > 0) rows.push(currentRow);
+          currentRow = [];
+          currentField = '';
+          if (char === '\r' && nextChar === '\n') i++;
+        } else {
+          currentField += char;
         }
+      }
+      if (currentField || currentRow.length > 0) {
+        currentRow.push(currentField.trim());
+        rows.push(currentRow);
+      }
+      return rows.filter(r => r.length >= 2).map(r => ({
+        question: r[0], 
+        answer: r[1],
+        id: Math.random().toString(36).substr(2, 9)
+      }));
+    }
 
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        updateThemeIcon(savedTheme);
-
-
-        // DOM Elements
-        const uploadView = document.getElementById('upload-view');
-        const appView = document.getElementById('app-view');
-        const cardElement = document.getElementById('flashcard');
-        const frontContent = document.getElementById('card-front-content');
-        const backContent = document.getElementById('card-back-content');
-        const progressBar = document.getElementById('progress-bar');
-        const deckStats = document.getElementById('deck-stats');
-        const errorMsg = document.getElementById('error-msg');
-
-        function handleFileUpload(input) {
-            const file = input.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const text = e.target.result;
-                    const parsed = parseCSV(text);
-                    if (parsed.length === 0) throw new Error("No valid cards found.");
-                    
-                    allCards = parsed;
-                    activeCards = [...allCards]; 
-                    currentIndex = 0;
-                    startApp();
-                } catch (err) {
-                    showError(err.message || "Invalid CSV format");
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        function parseCSV(text) {
-            const rows = [];
-            let currentRow = [];
-            let currentField = '';
-            let insideQuote = false;
-            
-            for (let i = 0; i < text.length; i++) {
-                const char = text[i];
-                const nextChar = text[i+1];
-
-                if (char === '"') {
-                    if (insideQuote && nextChar === '"') {
-                        currentField += '"';
-                        i++;
-                    } else {
-                        insideQuote = !insideQuote;
-                    }
-                } else if (char === ',' && !insideQuote) {
-                    currentRow.push(currentField.trim());
-                    currentField = '';
-                } else if ((char === '\n' || char === '\r') && !insideQuote) {
-                    if (currentField || currentRow.length > 0) currentRow.push(currentField.trim());
-                    if (currentRow.length > 0) rows.push(currentRow);
-                    currentRow = [];
-                    currentField = '';
-                    if (char === '\r' && nextChar === '\n') i++;
-                } else {
-                    currentField += char;
-                }
-            }
-            if (currentField || currentRow.length > 0) {
-                currentRow.push(currentField.trim());
-                rows.push(currentRow);
-            }
-
-            return rows.filter(r => r.length >= 2).map(r => ({ 
-                question: r[0], 
-                answer: r[1],
-                id: Math.random().toString(36).substr(2, 9)
-            }));
-        }
-
-        function startApp() {
-            uploadView.style.display = 'none';
-            appView.style.display = 'flex';
-            renderCard();
-        }
-
-        function resetApp() {
-            if(confirm("Upload a new file? Current progress will be lost.")) {
-                location.reload();
-            }
-        }
-
-        function renderCard() {
-            if (activeCards.length === 0) {
-                showCompletion();
-                return;
-            }
-
-            const card = activeCards[currentIndex];
-            isFlipped = false;
-            cardElement.classList.remove('flipped');
-            
-            frontContent.innerHTML = card.question;
-            backContent.innerHTML = card.answer;
-            
-            updateStats();
-            
-            if (window.MathJax) {
-                MathJax.typesetPromise([frontContent, backContent]).catch(err => console.log(err));
-            }
-        }
-
-        function updateStats() {
-            const progress = ((currentIndex + 1) / activeCards.length) * 100;
-            progressBar.style.width = `${progress}%`;
-            deckStats.innerText = `${currentIndex + 1} / ${activeCards.length} Cards`;
-            
-            document.getElementById('prevBtn').disabled = currentIndex === 0;
-            document.getElementById('nextBtn').disabled = currentIndex === activeCards.length - 1;
-        }
-
-        function flipCard() {
-            isFlipped = !isFlipped;
-            cardElement.classList.toggle('flipped', isFlipped);
-        }
-
-        function nextCard(e) {
-            if (e) e.stopPropagation();
-            if (currentIndex < activeCards.length - 1) {
-                currentIndex++;
-                renderCard();
-            }
-        }
-
-        function prevCard(e) {
-            if (e) e.stopPropagation();
-            if (currentIndex > 0) {
-                currentIndex--;
-                renderCard();
-            }
-        }
-
-        function shuffleCards() {
-            for (let i = activeCards.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [activeCards[i], activeCards[j]] = [activeCards[j], activeCards[i]];
-            }
-            currentIndex = 0;
-            renderCard();
-        }
-
-        function markAsLearned() {
-            if (activeCards.length === 0) return;
-            activeCards.splice(currentIndex, 1);
-            if (currentIndex >= activeCards.length) {
-                currentIndex = Math.max(0, activeCards.length - 1);
-            }
-            renderCard();
-        }
-
-        function showCompletion() {
-            frontContent.innerHTML = "🎉";
-            backContent.innerHTML = "All cards learned!";
-            deckStats.innerText = "Completed!";
-            progressBar.style.width = "100%";
-            document.getElementById('prevBtn').disabled = true;
-            document.getElementById('nextBtn').disabled = true;
-        }
-
-        function showError(msg) {
-            errorMsg.innerText = msg;
-            errorMsg.style.display = 'block';
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (appView.style.display === 'none') return;
-
-            switch(e.key) {
-                case 'ArrowRight': nextCard(); break;
-                case 'ArrowLeft': prevCard(); break;
-                case ' ': 
-                case 'Enter': 
-                    e.preventDefault();
-                    flipCard(); 
-                    break;
-                case 's':
-                case 'S': shuffleCards(); break;
-                case 'l':
-                case 'L': markAsLearned(); break;
-            }
-        });
-    </script>
+    function startApp() {
+      uploadView.style.display = 'none';
+      appView.style.display = 'flex';
+      renderCard();
+    }
+    function resetApp() {
+      if(confirm("Upload a new file? Current progress will be lost.")) {
+        location.reload();
+      }
+    }
+    function renderCard() {
+      if (activeCards.length === 0) {
+        showCompletion();
+        return;
+      }
+      const card = activeCards[currentIndex];
+      isFlipped = false;
+      cardElement.classList.remove('flipped');
+      frontContent.innerHTML = card.question;
+      backContent.innerHTML = card.answer;
+      updateStats();
+      if (window.MathJax) {
+        MathJax.typesetPromise([frontContent, backContent]).catch(err => {});
+      }
+    }
+    function updateStats() {
+      const progress = ((currentIndex + 1) / activeCards.length) * 100;
+      progressBar.style.width = `${progress}%`;
+      deckStats.innerText = `${currentIndex + 1} / ${activeCards.length} Cards`;
+      document.getElementById('prevBtn').disabled = currentIndex === 0;
+      document.getElementById('nextBtn').disabled = currentIndex === activeCards.length - 1;
+    }
+    function flipCard() {
+      isFlipped = !isFlipped;
+      cardElement.classList.toggle('flipped', isFlipped);
+    }
+    function nextCard(e) {
+      if (e) e.stopPropagation();
+      if (currentIndex < activeCards.length - 1) {
+        currentIndex++;
+        renderCard();
+      }
+    }
+    function prevCard(e) {
+      if (e) e.stopPropagation();
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderCard();
+      }
+    }
+    function shuffleCards() {
+      for (let i = activeCards.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [activeCards[i], activeCards[j]] = [activeCards[j], activeCards[i]];
+      }
+      currentIndex = 0;
+      renderCard();
+    }
+    function markAsLearned() {
+      if (activeCards.length === 0) return;
+      activeCards.splice(currentIndex, 1);
+      if (currentIndex >= activeCards.length) {
+        currentIndex = Math.max(0, activeCards.length - 1);
+      }
+      renderCard();
+    }
+    function showCompletion() {
+      frontContent.innerHTML = "🎉";
+      backContent.innerHTML = "All cards learned!";
+      deckStats.innerText = "Completed!";
+      progressBar.style.width = "100%";
+      document.getElementById('prevBtn').disabled = true;
+      document.getElementById('nextBtn').disabled = true;
+    }
+    function showError(msg) {
+      errorMsg.innerText = msg;
+      errorMsg.style.display = 'block';
+    }
+    document.addEventListener('keydown', (e) => {
+      if (appView.style.display === 'none') return;
+      switch(e.key) {
+        case 'ArrowRight': nextCard(); break;
+        case 'ArrowLeft': prevCard(); break;
+        case ' ': 
+        case 'Enter': 
+          e.preventDefault();
+          flipCard(); 
+          break;
+        case 's':
+        case 'S': shuffleCards(); break;
+        case 'l':
+        case 'L': markAsLearned(); break;
+      }
+    });
+  </script>
 </body>
 </html>
